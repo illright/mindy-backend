@@ -43,5 +43,3 @@
   }
 }
 </style>
-
-<style src="@/assets/_variables.scss" lang="scss"></style>
