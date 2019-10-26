@@ -97,6 +97,23 @@ def list_courses():
     return jsonify(courses)
 
 
+def list_courses_arr():
+    # yapf: disable
+    courses = []
+    for course in Course.query.all():
+        course_json = {
+            'id': course.id,
+            'name': course.name,
+            'teacher': course.creator,
+            'start_time': course.start_time,
+            'end_time': course.end_time,
+        }
+        courses.append(course_json)
+    # yapf: enable
+
+    return courses
+
+
 def give_ones_courses(id):
     courses = []
     for course in Enrollment.query.get_or_404(enrollee_id=id):
@@ -231,19 +248,36 @@ def reccomend_course():
     int2 = acc.get('interest_2')
     int3 = acc.get('interest_3')
     courses = give_ones_courses(user)
+    naming = []
     counting = {}
     for i in range(len(courses)):
         if courses[i].get('tag') not in counting.keys():
+            naming.append(courses[i].get('name'))
             counting[courses[i].get('tag')] = 2
             results[courses[i].get('tag')] = results.get(courses[i].get('tag')) + courses[i].get('grade')
         else:
+            naming.append(courses[i].get('name'))
             counting[courses[i].get('tag')] = 1 + counting.get(courses[i].get('tag'))
             results[courses[i].get('tag')] = results.get(courses[i].get('tag')) + courses[i].get('grade')
     for i in results.keys():
         results[i] = (results.get(i) + acc.get('phycho_test', {}).get(i)) / counting.get(i)
 
     sorted_res = sorted(results.items(), key=operator.itemgetter(1))
-    return sorted_res[0:3]
+    all_courses = list_courses_arr()
+    all_courses_names = []
+    for i in all_courses:
+        all_courses_names.append(i.get('name'))
+    all_courses_names = list(set(all_courses_names) - set(naming))
+    possible_rec = []
+    for i in all_courses:
+        if i.get('name') in all_courses_names:
+            if i.get('tag') in sorted_res[0:3]:
+                if i.get('interest_1') == int1 or i.get('interest_2') == int2 or int3 == i.get('interest_3'):
+                    possible_rec.append(i)
+    if len(possible_rec) == 0:
+        return "Ask your teacher for a personal advice"
+    else:
+        return possible_rec
 
 
 ''' WIP
