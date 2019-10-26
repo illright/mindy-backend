@@ -88,7 +88,11 @@ def list_courses():
         course_json = {
             'id': course.id,
             'name': course.name,
-            'teacher': course.creator,
+            'teacher': {
+                'id': course.creator.id,
+                'name': course.creator.name,
+                'email': course.creator.email
+            },
             'start_time': course.start_time,
             'end_time': course.end_time,
         }
@@ -131,7 +135,7 @@ def give_ones_courses(id):
     return courses
 
 
-@api.route('/course/<int:id>')
+@api.route('/courses/<int:id>')
 def get_course(id):
     course = Course.query.get_or_404(id)
     lessons = Lesson.query.filter_by(course_id=id).all()
@@ -156,7 +160,7 @@ def get_course(id):
     return jsonify(obj)
 
 
-@api.route('/course/<int:course_id>/lessons')
+@api.route('/courses/<int:course_id>/lessons')
 def get_lessons(course_id):
     lessons = Lesson.query.filter_by(
         course_id=course_id).order_by(Lesson.order.asc()).all()
@@ -199,7 +203,7 @@ def course_average_grades(student_id):
 
 
 
-@api.route('/course/<int:course_id>/lesson/<int:lesson_id>')
+@api.route('/courses/<int:course_id>/lessons/<int:lesson_id>')
 def get_lesson(course_id, lesson_id):
     user = None
     if current_user.is_authenticated:
@@ -237,7 +241,7 @@ def get_lesson(course_id, lesson_id):
     return jsonify(obj)
 
 
-@api.route('/course/<int:course_id>/lesson/<int:lesson_id>/quiz', methods=['POST'])
+@api.route('/courses/<int:course_id>/lessons/<int:lesson_id>/quiz', methods=['POST'])
 def submit_quiz(course_id, lesson_id):
     lesson = Lesson.query.get_or_404(lesson_id)
     correct_quiz = json.loads(lesson.quiz)
