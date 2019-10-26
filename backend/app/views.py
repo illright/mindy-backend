@@ -41,6 +41,39 @@ def get_account(id):
             'name': school.name,
             'is_verified': school.is_verified,
         } if school is not None else None,
+        'interest_1': account.interest1 if account.interest1 is not None else None,
+        'interest_2': account.interest2 if account.interest2 is not None else None,
+        'interest_3': account.interest2 if account.interest3 is not None else None,
+        'phycho_test': {
+            'communication': account.testresult.communication,
+            'reflexion': account.testresult.reflexion,
+            'prof_orientation': account.testresult.prof_orientation,
+            'leader': account.testresult.leader,
+            'critical_thinking': account.testresult.critical_thinking,
+            'family': account.testresult.family,
+            'logic': account.testresult.logic,
+            'science': account.testresult.science,
+        } if account.testresult is not None else None,
+    }
+    return jsonify(obj)
+
+
+@api.route('/account/<int:id>')
+def get_account(id):
+    account = Account.query.get_or_404(id)
+    school = School.query.get(account.school_id or -1)
+    obj = {
+        'id': account.id,
+        'name': account.name,
+        'email': account.email,
+        'is_teacher': account.is_teacher,
+        'class_number': account.class_numb,
+        'class_letter': account.class_letter,
+        'school': {
+            'id': school.id,
+            'name': school.name,
+            'is_verified': school.is_verified,
+        } if school is not None else None,
     }
     return jsonify(obj)
 
@@ -60,6 +93,20 @@ def list_courses():
         courses.append(course_json)
     # yapf: enable
 
+    return jsonify(courses)
+
+
+def give_ones_courses(id):
+    courses = []
+    for course in Enrollment.query.get_or_404(enrollee_id=id):
+        course_json = {
+            'id': course.id,
+            'name': course.name,
+            'teacher': course.creator,
+            'start_time': course.start_time,
+            'end_time': course.end_time,
+        }
+        courses.append(course_json)
     return jsonify(courses)
 
 
@@ -123,7 +170,7 @@ def get_lesson(course_id, lesson_id):
         for block in blocks:
             block_vars = LearningBlockVariety.query.filter_by(
                 block_id=block.id).all()
-            varieties.push(block_vars[len(block_vars)//2])
+            varieties.push(block_vars[len(block_vars) // 2])
     elif user.is_teacher:
         for block in blocks:
             block_vars = LearningBlockVariety.query.filter_by(
@@ -161,6 +208,28 @@ def submit_quiz(course_id, lesson_id):
     return jsonify({
         'result': correct / len(correct_quiz),
     })
+
+
+def reccomend_course():
+    results = {
+        'communication': 0,
+        'reflexion': 0,
+        'prof_orientation': 0,
+        'leader': 0,
+        'critical_thinking': 0,
+        'family': 0,
+        'logic': 0,
+        'science': 0
+    }
+    if current_user.is_authenticated:
+        user = Account.query.get(current_user.get_id())
+    acc = json.loads(get_account(user))
+    int1 = acc.get('interest_1')
+    int2 = acc.get('interest_2')
+    int3 = acc.get('interest_3')
+    for i in results.keys():
+        k = 1
+        results[i] = acc.get('phycho_test', {}).get(i)
 
 
 ''' WIP
