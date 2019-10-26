@@ -7,6 +7,13 @@
         {{ text }}
       </Button>
       <TextField :label="text" v-model="text" />
+
+      <CourseCard
+        title="Arithmetic Fundamentals"
+        :lessonsCompleted=1
+        :lessonsTotal=10
+        courseUrl="#"
+      />
     </div>
     <router-view/>
   </div>
@@ -16,21 +23,24 @@
   import Vue from 'vue';
   import Button from '@/components/Button.vue';
   import TextField from '@/components/TextField.vue';
+  import CourseCard from '@/components/CourseCard.vue';
 
-  export default Vue.extend({ components: {Button, TextField},data() {
-    return {
-      text: '',
-    };
-  }, });
+  export default Vue.extend({
+    components: {Button, TextField, CourseCard},
+    data() {
+      return {
+        text: '',
+      };
+    },
+  });
 </script>
 
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: #262840;
 }
 #nav {
   padding: 30px;
