@@ -177,6 +177,27 @@ def student_quiz_average(student, course):
     total_grade = sum(lesson.quiz_grade for lesson in lessons) / len(lessons)
     return total_grade
 
+def student_task_average(student, course):
+    enrollment = Enrollment.query.filter_by(
+        enrollee_id=student.id, course_id=course.id).one()
+    lessons = Lesson.query.filter_by(enrollment_id=enrollment.id).all()
+    counter=lessons.query.practice_sessions.query.score.count()
+    a = sum(lessons.query.practice_sessions.query.score)/sum(lessons.query.practice_sessions.query.questions)
+    a = round(a/counter)
+    return a
+    # total_grade = sum(lesson.quiz_grade for lesson in lessons) / len(lessons)
+#     return total_grade
+
+
+def course_average_grades(student_id):
+    courses_list = give_ones_courses(student_id)
+    for i in courses_list:
+        # Enrollment.query.filter_by(enrollee_id=student_id)
+        grade = ((student_quiz_average(student=student_id, course=i) +student_task_average(student=student_id, course=i))/2)
+
+    return grade
+
+
 
 @api.route('/course/<int:course_id>/lesson/<int:lesson_id>')
 def get_lesson(course_id, lesson_id):
