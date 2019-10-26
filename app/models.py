@@ -32,9 +32,13 @@ class Account(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
-    email = db.Column(db.String(256), nullable=False)
+    password=db.Column(db.String(256), nullable=False)
+    active=db.Column(db.Boolean, nullable=False)
+    email = db.Column(db.String(256), unique=True, nullable=False)
     is_teacher = db.Column(db.Boolean, default=False)
     school_id = db.Column(db.Integer, db.ForeignKey('schools.id'), nullable=True)
+    class_numb=db.Column(db.String(5), nullable=True)
+    class_letter=db.Column(db.String(5), nullable=True)
     # property `enrollments` created with a backref
     # property `created_courses` created with a backref
 
