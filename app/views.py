@@ -14,7 +14,7 @@ import werkzeug
 from werkzeug.exceptions import BadRequestKeyError
 # pylint: enable=import-error
 
-from app.models import (Course, Enrollment, Lesson, LearningBlock, LearningBlockVariety)
+from .models import (Course, Enrollment, Lesson, LearningBlock, LearningBlockVariety)
 
 api = Blueprint('api', __name__)  # pylint: disable=invalid-name
 

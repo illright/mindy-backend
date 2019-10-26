@@ -1,14 +1,14 @@
 """Flask application factory"""
 
 from flask import Flask
-from flask_migrate import Migrate
+
 from flask_login import login_required, current_user
 #from flask.ext.login import LoginManager , login_required , UserMixin , login_user, current_user
 from flask import Blueprint, render_template
 
 #thid id actually oauth
-from app.views import api
-from app.models import db
+from .views import api
+from .models import db
 
 main = Blueprint('main', __name__)
 
