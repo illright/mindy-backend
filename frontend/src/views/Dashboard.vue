@@ -28,6 +28,7 @@
 		<header>
 			<h3>My Interests</h3>
 		</header>
+		<ChoiceChips :chips="[{name: 'test'}, {name: 'test1'}]" groupName="tests" />
 	</div>
 </template>
 
@@ -35,9 +36,14 @@
 import Vue from 'vue';
 import Button from '@/components/Button.vue';
 import CourseCard from '@/components/CourseCard.vue';
+import ChoiceChips from '@/components/ChoiceChips.vue';
 
 export default Vue.extend({
-	components: {Button, CourseCard},
+	components: {
+		Button,
+		CourseCard,
+		ChoiceChips,
+	},
 	computed: {
 		courses() {
 			return this.$store.state.courses;
