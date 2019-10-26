@@ -3,10 +3,20 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+      <Button outline>
+        text
+      </Button>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script lang="ts">
+  import Vue from 'vue';
+  import Button from '@/components/Button.vue';
+
+  export default Vue.extend({ components: {Button} });
+</script>
 
 <style lang="scss">
 #app {
@@ -27,3 +37,5 @@
   }
 }
 </style>
+
+<style src="@/assets/_variables.scss" lang="scss"></style>
