@@ -33,7 +33,7 @@ class Account(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
     password=db.Column(db.String(256), nullable=False)
-    active=db.Column(db.Boolean, nullable=False)
+    # active=db.Column(db.Boolean, nullable=False)
     email = db.Column(db.String(256), unique=True, nullable=False)
     is_teacher = db.Column(db.Boolean, default=False)
     school_id = db.Column(db.Integer, db.ForeignKey('schools.id'), nullable=True)
