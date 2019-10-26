@@ -2,7 +2,7 @@
 
 from flask import Flask
 
-from flask_login import login_required, current_user, LoginManager, UserMixin, login_user
+from flask_login import login_required, current_user, LoginManager
 from flask import Blueprint, render_template
 from flask_migrate import Migrate
 

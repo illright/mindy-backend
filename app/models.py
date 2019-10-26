@@ -9,7 +9,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-
 class PracticeSessionEventType(Enum):
     question = auto()
     answer = auto()
@@ -32,20 +31,21 @@ class Account(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
-    password=db.Column(db.String(256), nullable=False)
+    password = db.Column(db.String(256), nullable=False)
     # active=db.Column(db.Boolean, nullable=False)
     email = db.Column(db.String(256), unique=True, nullable=False)
     is_teacher = db.Column(db.Boolean, default=False)
-    school_id = db.Column(db.Integer, db.ForeignKey('schools.id'), nullable=True)
-    class_numb=db.Column(db.String(5), nullable=True)
-    class_letter=db.Column(db.String(5), nullable=True)
+    school_id = db.Column(db.Integer, db.ForeignKey(
+        'schools.id'), nullable=True)
+    class_numb = db.Column(db.String(5), nullable=True)
+    class_letter = db.Column(db.String(5), nullable=True)
     # property `enrollments` created with a backref
     # property `created_courses` created with a backref
 
     school = db.relationship('School',
-                              backref=db.backref('teachers',
-                                                 lazy=True,
-                                                 cascade='all, delete-orphan'))
+                             backref=db.backref('teachers',
+                                                lazy=True,
+                                                cascade='all, delete-orphan'))
 
 
 class Course(db.Model):
@@ -53,7 +53,8 @@ class Course(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
-    creator_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
+    creator_id = db.Column(db.Integer, db.ForeignKey(
+        'accounts.id'), nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     # property `lessons` created with a backref
@@ -69,8 +70,10 @@ class Enrollment(db.Model):
     __tablename__ = 'enrollments'
 
     id = db.Column(db.Integer, primary_key=True)
-    enrollee_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    enrollee_id = db.Column(db.Integer, db.ForeignKey(
+        'accounts.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey(
+        'courses.id'), nullable=False)
     # property `block_reports` created with a backref
     # property `lesson_reports` created with a backref
 
@@ -88,7 +91,8 @@ class Lesson(db.Model):
     __tablename__ = 'lessons'
 
     id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey(
+        'courses.id'), nullable=False)
     name = db.Column(db.String(256), nullable=False)
     description = db.Column(db.String(1024), nullable=True)
     consultation_time = db.Column(db.DateTime, nullable=True)
@@ -99,30 +103,32 @@ class Lesson(db.Model):
     # property `practice_sessions` created with a backref
 
     course = db.relationship('Course',
-                              backref=db.backref('lessons',
-                                                 lazy=True,
-                                                 cascade='all, delete-orphan'))
+                             backref=db.backref('lessons',
+                                                lazy=True,
+                                                cascade='all, delete-orphan'))
 
 
 class LearningBlock(db.Model):
     __tablename__ = 'learning_blocks'
 
     id = db.Column(db.Integer, primary_key=True)
-    lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), nullable=False)
+    lesson_id = db.Column(db.Integer, db.ForeignKey(
+        'lessons.id'), nullable=False)
     order = db.Column(db.Integer, nullable=False)
     # property `varieties` created with a backref
 
     lesson = db.relationship('Lesson',
-                              backref=db.backref('learning_blocks',
-                                                 lazy=True,
-                                                 cascade='all, delete-orphan'))
+                             backref=db.backref('learning_blocks',
+                                                lazy=True,
+                                                cascade='all, delete-orphan'))
 
 
 class LearningBlockVariety(db.Model):
     __tablename__ = 'learning_block_varieties'
 
     id = db.Column(db.Integer, primary_key=True)
-    block_id = db.Column(db.Integer, db.ForeignKey('learning_blocks.id'), nullable=False)
+    block_id = db.Column(db.Integer, db.ForeignKey(
+        'learning_blocks.id'), nullable=False)
     difficulty = db.Column(db.Integer, nullable=False)
     text_file = db.Column(db.String(256), nullable=True)
     video_file = db.Column(db.String(256), nullable=True)
@@ -138,7 +144,8 @@ class LearningBlockReport(db.Model):
     __tablename__ = 'learning_block_reports'
 
     id = db.Column(db.Integer, primary_key=True)
-    enrollment_id = db.Column(db.Integer, db.ForeignKey('enrollments.id'), nullable=False)
+    enrollment_id = db.Column(db.Integer, db.ForeignKey(
+        'enrollments.id'), nullable=False)
     variety_id = db.Column(db.Integer,
                            db.ForeignKey('learning_block_varieties.id'),
                            nullable=False)
@@ -155,7 +162,8 @@ class LessonReport(db.Model):
     __tablename__ = 'lesson_reports'
 
     id = db.Column(db.Integer, primary_key=True)
-    enrollment_id = db.Column(db.Integer, db.ForeignKey('enrollments.id'), nullable=False)
+    enrollment_id = db.Column(db.Integer, db.ForeignKey(
+        'enrollments.id'), nullable=False)
     lesson_id = db.Column(db.Integer,
                           db.ForeignKey('lessons.id'),
                           nullable=False)
@@ -210,7 +218,8 @@ class PracticeSessionEvent(db.Model):
     __tablename__ = 'practice_session_events'
 
     id = db.Column(db.Integer, primary_key=True)
-    student_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey(
+        'accounts.id'), nullable=False)
     session_id = db.Column(db.Integer,
                            db.ForeignKey('practice_sessions.id'),
                            nullable=False)
@@ -223,7 +232,7 @@ class PracticeSessionEvent(db.Model):
 
     student = db.relationship('Account')
     session = db.relationship('PracticeSession',
-                             backref=db.backref('session_events',
-                                                lazy=True,
-                                                cascade='all, delete-orphan'))
+                              backref=db.backref('session_events',
+                                                 lazy=True,
+                                                 cascade='all, delete-orphan'))
     problem = db.relationship('PracticeProblem')

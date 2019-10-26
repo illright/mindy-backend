@@ -17,7 +17,8 @@ from werkzeug.exceptions import BadRequestKeyError
 # pylint: enable=import-error
 
 
-from .models import (Course, Enrollment, Lesson, LearningBlock, LearningBlockVariety, Account)
+from .models import (Course, Enrollment, Lesson,
+                     LearningBlock, LearningBlockVariety, Account, School)
 
 api = Blueprint('api', __name__)  # pylint: disable=invalid-name
 
@@ -65,10 +66,12 @@ def get_lessons(course_id):
 
 
 def student_quiz_average(student, course):
-	enrollment = Enrollment.query.filter_by(enrollee_id=student.id, course_id=course.id).one()
+    enrollment = Enrollment.query.filter_by(
+        enrollee_id=student.id, course_id=course.id).one()
 	lessons = Lesson.query.filter_by(enrollment_id=enrollment.id).all()
 	total_grade = sum(lesson.quiz_grade for lesson in lessons) / len(lessons)
 	return total_grade
+
 
 @api.route('/course/<int:course_id>/lesson/<int:lesson_id>')
 def get_lesson(course_id, lesson_id):
@@ -81,15 +84,18 @@ def get_lesson(course_id, lesson_id):
 	varieties = []
 	if user is None:
 		for block in blocks:
-			block_vars = LearningBlockVariety.query.filter_by(block_id=block.id).all()
+            block_vars = LearningBlockVariety.query.filter_by(
+                block_id=block.id).all()
 			varieties.push(block_vars[len(block_vars)//2])
 	elif user.is_teacher:
 		for block in blocks:
-			block_vars = LearningBlockVariety.query.filter_by(block_id=block.id).all()
+            block_vars = LearningBlockVariety.query.filter_by(
+                block_id=block.id).all()
 			varieties.append(block_vars)
 	else:
 		for block in blocks:
-			block_vars = LearningBlockVariety.query.filter_by(block_id=block.id)
+            block_vars = LearningBlockVariety.query.filter_by(
+                block_id=block.id)
 			avg_grade = student_quiz_average(user, course)
 			difficulty = math.ceil(avg_grade * len(block_vars))
 			block_var = block_vars.filter_by(difficulty=difficulty).one()
@@ -103,6 +109,7 @@ def get_lesson(course_id, lesson_id):
 		'quiz': lesson.quiz,
 	}
 	return jsonify(obj)
+
 
 @api.route('/course/<int:course_id>/lesson/<int:lesson_id>/quiz', methods=['POST'])
 def submit_quiz(course_id, lesson_id):
