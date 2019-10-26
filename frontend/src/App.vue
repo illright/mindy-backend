@@ -1,14 +1,13 @@
 <template>
 	<div id="app">
-		<div id="nav">
-			<router-link to="/">Home</router-link> |
-			<router-link to="/about">About</router-link>
-			<Button outline>
-				{{ text }}
-			</Button>
-			<TextField :label="text" v-model="text" />
+		<header id="nav">
+			<img src="/img/logo.svg" />
+			<h1 class="title">mindly</h1>
+		</header>
+		<hr class="separator" />
+		<div class="content">
+			<router-view/>
 		</div>
-		<router-view/>
 	</div>
 </template>
 
@@ -35,17 +34,34 @@
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
 	color: #2c3e50;
 }
 #nav {
-	padding: 30px;
-	a {
-		font-weight: bold;
-		color: #2c3e50;
-		&.router-link-exact-active {
-			color: #42b983;
-		}
+	padding: 8px 64px;
+	display: flex;
+	align-items: center;
+	.title {
+		padding-left: 14px;
+		font-family: "Lobster Two";
+		font-style: normal;
+		font-weight: normal;
+		font-size: 32px;
+		line-height: 40px;
+		color: #EA8A8C;
+		margin: 0;
 	}
+}
+.separator {
+	width: 100%;
+	border: 1.5px solid #4DB39A;
+}
+.content {
+	margin: 4em;
+}
+</style>
+
+<style>
+body {
+	margin: 0;
 }
 </style>
