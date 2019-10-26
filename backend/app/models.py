@@ -68,27 +68,8 @@ class TestResult(db.Model):
                                                     cascade='all, delete-orphan'))
 
 
-# class Quiz(db.Model):
-#     __tablename__ = 'quiz'
-#
-#     id = db.Column(db.Integer, primary_key=True)
-#     questions = db.Column(db.Integer, nullable=False)
-#     correct = db.Column(db.Integer, nullable=False)
-#     tasks = db.Column(db.String(4096), nullable=True)
-#     in_class = db.Column(db.Boolean, nullable=True)
-#     solutions = db.Column(db.String(4096), nullable=True)
-#     student_id = db.Column(db.Integer, db.ForeignKey(
-#         'enrollments.enrollee_id'), nullable=False)
-#
-#     quiz_owner = db.relationship('Enrollment',
-#                                  backref=db.backref('quiz_owner',
-#                                                     lazy=True,
-#                                                     cascade='all, delete-orphan'))
-
-
 class Course(db.Model):
     __tablename__ = 'courses'
-
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
     creator_id = db.Column(db.Integer, db.ForeignKey(
@@ -137,8 +118,6 @@ class Lesson(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey(
         'courses.id'), nullable=False)
-    quiz_id = db.Column(db.Integer, db.ForeignKey(
-        'quiz.id'), nullable=False)
     name = db.Column(db.String(256), nullable=False)
     description = db.Column(db.String(1024), nullable=True)
     consultation_time = db.Column(db.DateTime, nullable=True)
@@ -150,10 +129,6 @@ class Lesson(db.Model):
 
     course = db.relationship('Course',
                              backref=db.backref('lessons',
-                                                lazy=True,
-                                                cascade='all, delete-orphan'))
-    quizes = db.relationship('Quiz',
-                             backref=db.backref('lessons_with_quizes',
                                                 lazy=True,
                                                 cascade='all, delete-orphan'))
 
