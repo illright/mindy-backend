@@ -4,8 +4,9 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
       <Button outline>
-        text
+        {{ text }}
       </Button>
+      <TextField :label="text" v-model="text" />
     </div>
     <router-view/>
   </div>
@@ -14,8 +15,13 @@
 <script lang="ts">
   import Vue from 'vue';
   import Button from '@/components/Button.vue';
+  import TextField from '@/components/TextField.vue';
 
-  export default Vue.extend({ components: {Button} });
+  export default Vue.extend({ components: {Button, TextField},data() {
+    return {
+      text: '',
+    };
+  }, });
 </script>
 
 <style lang="scss">
