@@ -37,15 +37,15 @@
 				type: Number,
 				required: true,
 			},
-			courseUrl: {
-				type: String,
+			id: {
+				type: Number,
 				required: true,
 			},
 		},
 	});
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	$shadow-1: 0 2px 5px transparentize(black, .86),
 						 0 1px 5px transparentize(black, .88);
 
