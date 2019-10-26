@@ -46,10 +46,15 @@ class Account(db.Model):
                              backref=db.backref('teachers',
                                                 lazy=True,
                                                 cascade='all, delete-orphan'))
+    testresult = db.relationship('TestResult',
+                                 backref=db.backref('test_owner',
+                                                    lazy=True,
+                                                    cascade='all, delete-orphan'))
+
 
 class TestResult(db.Model):
     __tablename__ = 'accounts'
-
+    last_test_id = db.Column(db.Integer, nullable=True)
     created_date = db.Column(db.DateTime, default=datetime.utcnow)
     reflexion = db.Column(db.Float, nullable=True)
     prof_orientation = db.Column(db.Float, nullable=True)
@@ -59,7 +64,6 @@ class TestResult(db.Model):
     logic = db.Column(db.Float, nullable=True)
     science = db.Column(db.Float, nullable=True)
     communication = db.Column(db.Float, nullable=True)
-
 
 
 class Course(db.Model):
