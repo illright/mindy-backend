@@ -10,7 +10,7 @@ const config: RequestInit = {
 	credentials: 'include',
 	mode: 'cors',
 	headers: new Headers({}),
-}
+};
 
 export default new Vuex.Store({
 	state: {

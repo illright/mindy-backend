@@ -11,7 +11,7 @@
 		props: {
 			outline: {
 				type: Boolean,
-				default: false
+				default: false,
 			},
 		},
 	});
