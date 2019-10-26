@@ -282,6 +282,6 @@ class Point(db.Model):
                                                 lazy=True,
                                                 cascade='all, delete-orphan'))
     course = db.relationship('Course',
-                             backref=db.backref('lessons',
+                             backref=db.backref('points_ref',
                                                 lazy=True,
                                                 cascade='all, delete-orphan'))
