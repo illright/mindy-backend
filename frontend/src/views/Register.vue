@@ -39,7 +39,7 @@ export default Vue.extend({
 		register(type: string) {
 			this.$store.dispatch('register', {
 				name: this.name,
-				email: this.name,
+				email: this.email,
 				password: this.password,
 				is_teacher: type === 'teacher',
 			}).then(() => this.$router.push('/'));

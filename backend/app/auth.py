@@ -1,5 +1,5 @@
 # https://scotch.io/tutorials/authentication-and-authorization-with-flask-login
-from flask import Blueprint, url_for, render_template, request, flash
+from flask import Blueprint, url_for, render_template, request, flash, jsonify
 from .models import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import Account
@@ -27,7 +27,7 @@ def logout():
     return redirect(url_for('main.index'))
 
 
-@auth.route('/signup', methods=['POST'])
+@auth.route('/register', methods=['POST'])
 def signup_post():
     json = request.get_json(force=True)
     mail = json['email']
@@ -39,7 +39,7 @@ def signup_post():
 
     if user:  # if a user is found, we want to redirect back to signup page so user can try again
         flash('Email address already exists')
-        return redirect(url_for('auth.signup'))
+        # return redirect(url_for('auth.signup'))
 
     # create new user with the form data. Hash the password so plaintext version isn't saved.
     new_user = Account(email=mail, name=name, password=generate_password_hash(password, method='sha256'),
@@ -58,9 +58,10 @@ def signup_post():
 
 @auth.route('/login', methods=['POST'])
 def login_post():
-    email = request.form.get('email')
-    password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
+    json = request.get_json(force=True)
+    email = json['email']
+    password = json['password']
+    remember = True #if request.form.get('remember') else False
 
     user = Account.query.filter_by(email=email).first()
 
@@ -69,7 +70,7 @@ def login_post():
     if not user or not check_password_hash(user.password, password):
         flash('Please check your login details and try again.')
         # if user doesn't exist or password is wrong, reload the page
-        return redirect(url_for('auth.login'))
+        #return redirect(url_for('auth.login'))
 
     login_user(user, remember=remember)
     # if the above check passes, then we know the user has the right credentials

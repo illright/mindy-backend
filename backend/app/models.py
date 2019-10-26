@@ -3,6 +3,7 @@ from datetime import datetime
 from enum import Enum, auto
 
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
@@ -24,7 +25,7 @@ class School(db.Model):
     # property `teachers` created with a backref
 
 
-class Account(db.Model):
+class Account(db.Model, UserMixin):
     __tablename__ = 'accounts'
 
     id = db.Column(db.Integer, primary_key=True)
