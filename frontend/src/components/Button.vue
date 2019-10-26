@@ -64,6 +64,7 @@
 			&:hover:not(:disabled), &:focus {
 				background: $main-hover;
 				box-shadow: $shadow-raised;
+				color: #fff;
 			}
 
 			& > svg {
