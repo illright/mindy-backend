@@ -1,10 +1,8 @@
 """Database models"""
-
 from datetime import datetime
 from enum import Enum, auto
 
 from flask_sqlalchemy import SQLAlchemy
-
 
 db = SQLAlchemy()
 
@@ -35,10 +33,12 @@ class Account(db.Model):
     # active=db.Column(db.Boolean, nullable=False)
     email = db.Column(db.String(256), unique=True, nullable=False)
     is_teacher = db.Column(db.Boolean, default=False)
-    school_id = db.Column(db.Integer, db.ForeignKey(
-        'schools.id'), nullable=True)
+    school_id = db.Column(db.Integer, db.ForeignKey('schools.id'), nullable=True)
     class_numb = db.Column(db.String(5), nullable=True)
     class_letter = db.Column(db.String(5), nullable=True)
+    interest1 = db.Column(db.String(256), nullable=True)
+    interest2 = db.Column(db.String(256), nullable=True)
+    interest3 = db.Column(db.String(256), nullable=True)
     # property `enrollments` created with a backref
     # property `created_courses` created with a backref
 
@@ -46,6 +46,20 @@ class Account(db.Model):
                              backref=db.backref('teachers',
                                                 lazy=True,
                                                 cascade='all, delete-orphan'))
+
+class TestResult(db.Model):
+    __tablename__ = 'accounts'
+
+    created_date = db.Column(db.DateTime, default=datetime.utcnow)
+    reflexion = db.Column(db.Float, nullable=True)
+    prof_orientation = db.Column(db.Float, nullable=True)
+    leader = db.Column(db.Float, nullable=True)
+    critical_thinking = db.Column(db.Float, nullable=True)
+    family = db.Column(db.Float, nullable=True)
+    logic = db.Column(db.Float, nullable=True)
+    science = db.Column(db.Float, nullable=True)
+    communication = db.Column(db.Float, nullable=True)
+
 
 
 class Course(db.Model):
@@ -57,6 +71,10 @@ class Course(db.Model):
         'accounts.id'), nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
+    elective = db.Column(db.Boolean, nullable=True)
+    interest1 = db.Column(db.String(256), nullable=True)
+    interest2 = db.Column(db.String(256), nullable=True)
+    interest3 = db.Column(db.String(256), nullable=True)
     # property `lessons` created with a backref
     # property `enrollments` created with a backref
 
