@@ -1,6 +1,6 @@
 <template>
 	<div class="card">
-		<div class="header">{{ title }}</div>
+		<div class="header">{{ name }}</div>
 		<div class="progress">
 			<img class="icon" src="/img/check-square-grad.svg" />
 			<span>
@@ -25,7 +25,7 @@
 			Button,
 		},
 		props: {
-			title: {
+			name: {
 				type: String,
 				required: true,
 			},

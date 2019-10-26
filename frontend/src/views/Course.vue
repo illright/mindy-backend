@@ -1,16 +1,16 @@
 <template>
 	<div class="course-page">
-		<h2>Arithmetic Fundamentals</h2>
+		<h2>{{ course.name }}</h2>
 		<div class="info">
 			<Labeled label="provided by">
-				<em>Innopolis University</em>
+				<em>{{ course.school }}</em>
 			</Labeled>
 			<Labeled label="course time">
-				<em>19 Sep 2019 – 20 Jun 2020</em>
+				<em>{{ course.start_time | date }} – {{ course.end_time | date }}</em>
 			</Labeled>
 			<Labeled label="teacher">
-				<em>Ivan Konyukhov</em>
-				some.email@provider.com
+				<em>{{ course.teacher.name }}</em>
+				{{ course.teacher.email }}
 			</Labeled>
 		</div>
 		<div class="courses">
@@ -92,18 +92,20 @@
 		components: {Labeled, Card, Button},
 		data() {
 			return {
-				id: '',
+				course: {teacher: {}} as Course,
 			};
 		},
-		computed: {
-			course(): Course {
-				return this.$store.getters.course(this.id);
-			},
-		},
 		mounted() {
-			this.id = this.$route.params.id;
-			this.$store.dispatch('getCourse', this.id);
+			const id = this.$route.params.id;
+			this.$store.dispatch('getCourse', id)
+				.then(c => this.course = c);
 		},
+		filters: {
+			date(str: string) {
+				if(str == undefined) return '';
+				return new Date(str).toDateString();
+			}
+		}
 	});
 </script>
 
