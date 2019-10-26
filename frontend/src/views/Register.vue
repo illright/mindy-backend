@@ -1,15 +1,19 @@
 <template>
 	<div class="wrapper">
 		<div class="form-card">
-			<h1>Login</h1>
+			<h1>Register</h1>
+			<TextField label="full name" v-model="name" />
 			<TextField label="e-mail" v-model="email" />
 			<TextField label="password" v-model="password" />
 			<div class="actions">
-				<Button filled @click="login">
-					login
+				<Button filled @click="register('student')">
+					register as a student
+				</Button>
+				<Button filled @click="register('teacher')">
+					register as a teacher
 				</Button>
 			</div>
-			<p>Don't have an account yet? <router-link to="/register">Register here</router-link>.</p>
+			<p>Already have an account? <router-link to="/login">Log in here</router-link>.</p>
 		</div>
 	</div>
 </template>
@@ -26,15 +30,18 @@ export default Vue.extend({
 	},
 	data() {
 		return {
+			name: '',
 			email: '',
 			password: '',
 		};
 	},
 	methods: {
-		login() {
-			this.$store.dispatch('login', {
-				email: this.email,
+		register(type: string) {
+			this.$store.dispatch('register', {
+				name: this.name,
+				email: this.name,
 				password: this.password,
+				is_teacher: type === 'teacher',
 			}).then(() => this.$router.push('/'));
 		},
 	},

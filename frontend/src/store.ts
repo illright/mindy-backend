@@ -26,6 +26,14 @@ export default new Vuex.Store({
 		},
 	},
 	actions: {
+		async register({commit}, payload) {
+			const response = await fetch(`${BASE_URL}/register`, {
+				method: 'POST',
+				body: JSON.stringify(payload),
+			});
+			const json = await response.json();
+			commit('setUser', json);
+		},
 		async login({commit}, {email, password}) {
 			const response = await fetch(`${BASE_URL}/login`, {
 				method: 'POST',

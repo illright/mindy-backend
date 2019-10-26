@@ -3,6 +3,7 @@ import store from './store';
 import Router, { NavigationGuard } from 'vue-router';
 import Dashboard from './views/Dashboard.vue';
 import Login from './views/Login.vue';
+import Register from './views/Register.vue';
 import Course from './views/Course.vue';
 
 Vue.use(Router);
@@ -27,6 +28,11 @@ export default new Router({
 			path: '/login',
 			name: 'login',
 			component: Login,
+		},
+		{
+			path: '/register',
+			name: 'register',
+			component: Register,
 		},
 		{
 			path: '/courses/:id',
