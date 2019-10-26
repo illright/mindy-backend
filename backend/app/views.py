@@ -4,6 +4,7 @@ from datetime import datetime
 import mimetypes
 import json
 import math
+import operator
 
 # pylint: disable=import-error
 import requests
@@ -241,7 +242,8 @@ def reccomend_course():
     for i in results.keys():
         results[i] = (results.get(i) + acc.get('phycho_test', {}).get(i)) / counting.get(i)
 
-    return results
+    sorted_res = sorted(results.items(), key=operator.itemgetter(1))
+    return sorted_res[0:3]
 
 
 ''' WIP
