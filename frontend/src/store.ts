@@ -9,12 +9,11 @@ const BASE_URL = '//localhost:5000';
 const config: RequestInit = {
 	credentials: 'include',
 	mode: 'cors',
-	headers: new Headers({}),
 };
 
 export default new Vuex.Store({
 	state: {
-		user: null,
+		user: null as any,
 		courses: [] as Course[],
 	},
 	mutations: {
@@ -47,8 +46,8 @@ export default new Vuex.Store({
 			const json = await response.json();
 			commit('setUser', json);
 		},
-		async getCourses({commit}) {
-			const response = await fetch(`${BASE_URL}/courses`);
+		async getCourses({commit, state}) {
+			const response = await fetch(`${BASE_URL}/courses?user_id=${state.user.id}`);
 			const json = await response.json();
 			for (const course of json) {
 				commit('setCourse', course);
@@ -58,6 +57,7 @@ export default new Vuex.Store({
 			const response = await fetch(`${BASE_URL}/courses/${payload}`);
 			const json = await response.json();
 			commit('setCourse', json);
+			return json;
 		},
 		async getLessons({commit}, courseId: string) {
 			const response = await fetch(`${BASE_URL}/course/${courseId}/lessons`);

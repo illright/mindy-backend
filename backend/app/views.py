@@ -20,7 +20,7 @@ from werkzeug.exceptions import BadRequestKeyError
 
 
 from .models import (Course, Enrollment, Lesson,
-                     LearningBlock, LearningBlockVariety, Account, School)
+                     LearningBlock, LearningBlockVariety, Account, School, LessonReport)
 
 api = Blueprint('api', __name__)  # pylint: disable=invalid-name
 CORS(api, supports_credentials=True)
@@ -86,6 +86,7 @@ def get_account(id):
 @api.route('/courses')
 def list_courses():
     # yapf: disable
+    user = Account.query.get(request.args['user_id'])
     courses = []
     for course in Course.query.all():
         course_json = {
@@ -99,6 +100,14 @@ def list_courses():
             'start_time': course.start_time,
             'end_time': course.end_time,
         }
+        
+        if user is not None:
+            total_lessons = Lesson.query.filter_by(course_id=course.id).count()
+            enrollment = Enrollment.query.filter_by(enrollee_id=user.id, course_id=course.id).one()
+            completed_lessons = LessonReport.query.filter_by(enrollment_id=enrollment.id).count()
+            course_json['lessonsTotal'] = total_lessons
+            course_json['lessonsCompleted'] = completed_lessons
+        
         courses.append(course_json)
     # yapf: enable
 
