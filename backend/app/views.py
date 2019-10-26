@@ -105,9 +105,11 @@ def give_ones_courses(id):
             'teacher': course.creator,
             'start_time': course.start_time,
             'end_time': course.end_time,
+            'grade': course.grade,
+            'tag': course.tag
         }
         courses.append(course_json)
-    return jsonify(courses)
+    return courses
 
 
 @api.route('/course/<int:id>')
@@ -227,9 +229,19 @@ def reccomend_course():
     int1 = acc.get('interest_1')
     int2 = acc.get('interest_2')
     int3 = acc.get('interest_3')
+    courses = give_ones_courses(user)
+    counting = {}
+    for i in range(len(courses)):
+        if courses[i].get('tag') not in counting.keys():
+            counting[courses[i].get('tag')] = 2
+            results[courses[i].get('tag')] = results.get(courses[i].get('tag')) + courses[i].get('grade')
+        else:
+            counting[courses[i].get('tag')] = 1 + counting.get(courses[i].get('tag'))
+            results[courses[i].get('tag')] = results.get(courses[i].get('tag')) + courses[i].get('grade')
     for i in results.keys():
-        k = 1
-        results[i] = acc.get('phycho_test', {}).get(i)
+        results[i] = (results.get(i) + acc.get('phycho_test', {}).get(i)) / counting.get(i)
+
+    return results
 
 
 ''' WIP

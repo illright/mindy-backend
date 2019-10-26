@@ -96,6 +96,7 @@ class Course(db.Model):
     interest2 = db.Column(db.String(256), nullable=True)
     interest3 = db.Column(db.String(256), nullable=True)
     grade = db.Column(db.Integer, nullable=True)
+    tag = db.Column(db.String(256), nullable=True)
     # property `lessons` created with a backref
     # property `enrollments` created with a backref
 
