@@ -25,6 +25,26 @@ api = Blueprint('api', __name__)  # pylint: disable=invalid-name
 
 # ----- Projects -----
 
+@api.route('/account/<int:id>')
+def get_account(id):
+    account = Account.query.get_or_404(id)
+    school = School.query.get(account.school_id or -1)
+    obj = {
+        'id': account.id,
+        'name': account.name,
+        'email': account.email,
+        'is_teacher': account.is_teacher,
+        'class_number': account.class_numb,
+        'class_letter': account.class_letter,
+        'school': {
+            'id': school.id,
+            'name': school.name,
+            'is_verified': school.is_verified,
+        } if school is not None else None,
+    }
+    return jsonify(obj)
+
+
 @api.route('/courses')
 def list_courses():
     # yapf: disable
@@ -47,68 +67,85 @@ def list_courses():
 def get_course(id):
     course = Course.query.get_or_404(id)
     lessons = Lesson.query.filter_by(course_id=id).all()
+    school = course.creator.school
     obj = {
         'id': course.id,
         'name': course.name,
-        'teacher': course.creator,
-        'school': course.creator.school,
+        'teacher': {
+            'id': course.creator.id,
+            'name': course.creator.name,
+            'email': course.creator.email,
+        },
+        'school': {
+            'id': school.id,
+            'name': school.name,
+            'is_verified': school.is_verified,
+        } if school is not None else None,
         'start_time': course.start_time,
         'end_time': course.end_time,
-        'lessons': [{'name': l.name, 'description': l.description, 'order': l.order} for l in lessons]
+        'lessons': [{'id': l.id, 'name': l.name, 'description': l.description, 'order': l.order} for l in lessons]
     }
     return jsonify(obj)
 
 
 @api.route('/course/<int:course_id>/lessons')
 def get_lessons(course_id):
-    lessons = Lesson.query.filter_by(course_id=course_id).order_by(Lesson.order.asc()).all()
-    return jsonify(lessons)
+    lessons = Lesson.query.filter_by(
+        course_id=course_id).order_by(Lesson.order.asc()).all()
+    obj = [{
+        'id': lesson.id,
+        'name': lesson.name,
+        'description': lesson.description,
+        'order': lesson.order,
+        'quiz': json.loads(lesson.quiz)
+    } for lesson in lessons]
+    return jsonify(obj)
 
 
 def student_quiz_average(student, course):
     enrollment = Enrollment.query.filter_by(
         enrollee_id=student.id, course_id=course.id).one()
-	lessons = Lesson.query.filter_by(enrollment_id=enrollment.id).all()
-	total_grade = sum(lesson.quiz_grade for lesson in lessons) / len(lessons)
-	return total_grade
+    lessons = Lesson.query.filter_by(enrollment_id=enrollment.id).all()
+    total_grade = sum(lesson.quiz_grade for lesson in lessons) / len(lessons)
+    return total_grade
 
 
 @api.route('/course/<int:course_id>/lesson/<int:lesson_id>')
 def get_lesson(course_id, lesson_id):
-	user = None
-	if current_user.is_authenticated():
-		user = Account.query.get_or_404(current_user.get_id())
-	course = Course.query.get_or_404(course_id)
-	lesson = Lesson.query.get_or_404(lesson_id)
-	blocks = LearningBlock.query.filter_by(lesson_id=lesson_id).all()
-	varieties = []
-	if user is None:
-		for block in blocks:
+    user = None
+    if current_user.is_authenticated:
+        user = Account.query.get(current_user.get_id())
+    course = Course.query.get_or_404(course_id)
+    lesson = Lesson.query.get_or_404(lesson_id)
+    blocks = LearningBlock.query.filter_by(lesson_id=lesson_id).all()
+    varieties = []
+    if user is None:
+        for block in blocks:
             block_vars = LearningBlockVariety.query.filter_by(
                 block_id=block.id).all()
-			varieties.push(block_vars[len(block_vars)//2])
-	elif user.is_teacher:
-		for block in blocks:
+            varieties.push(block_vars[len(block_vars)//2])
+    elif user.is_teacher:
+        for block in blocks:
             block_vars = LearningBlockVariety.query.filter_by(
                 block_id=block.id).all()
-			varieties.append(block_vars)
-	else:
-		for block in blocks:
+            varieties.append(block_vars)
+    else:
+        for block in blocks:
             block_vars = LearningBlockVariety.query.filter_by(
                 block_id=block.id)
-			avg_grade = student_quiz_average(user, course)
-			difficulty = math.ceil(avg_grade * len(block_vars))
-			block_var = block_vars.filter_by(difficulty=difficulty).one()
-			varieties.push(block_var)
+            avg_grade = student_quiz_average(user, course)
+            difficulty = math.ceil(avg_grade * len(block_vars))
+            block_var = block_vars.filter_by(difficulty=difficulty).one()
+            varieties.push(block_var)
 
-	obj = {
-		'name': lesson.name,
-		'description': lesson.description,
-		'order': lesson.order,
-		'blocks': varieties,
-		'quiz': lesson.quiz,
-	}
-	return jsonify(obj)
+    obj = {
+        'name': lesson.name,
+        'description': lesson.description,
+        'order': lesson.order,
+        'blocks': varieties,
+        'quiz': lesson.quiz,
+    }
+    return jsonify(obj)
 
 
 @api.route('/course/<int:course_id>/lesson/<int:lesson_id>/quiz', methods=['POST'])
@@ -129,9 +166,9 @@ def submit_quiz(course_id, lesson_id):
 ''' WIP
 @api.route('/course/<int:course_id>/lesson/<int:lesson_id>/complete', methods=['POST'])
 def complete_block(course_id, lesson_id):
-	req = request.get_json(force=True)
-	block_var_id = req['block']
-	needs_help = req['needs_help']
+    req = request.get_json(force=True)
+    block_var_id = req['block']
+    needs_help = req['needs_help']
 
-	block_var = LearningBlockVariety.query.filter_by(id=block_var_id)
+    block_var = LearningBlockVariety.query.filter_by(id=block_var_id)
 '''
