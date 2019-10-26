@@ -44,11 +44,11 @@
 
 	.btn {
 		font-family: $font-face;
-		font-weight: 600;
+		font-weight: 700;
 		font-size: 1rem;
-		color: $main;
 		text-decoration: none;
 		outline: none;
+		color: #4DB39A;
 		background: none;
 		padding: .8em 1.1em;
 		border-radius: 1.5625em;
