@@ -10,7 +10,7 @@
 		</div>
 		<div class="actions">
 			<Button filled>
-				continue
+				<router-link :to="`/courses/${id}`" tag="span">continue</router-link>
 			</Button>
 		</div>
 	</div>

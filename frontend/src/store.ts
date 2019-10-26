@@ -35,11 +35,25 @@ export default new Vuex.Store({
 			commit('setUser', json);
 		},
 		async getCourses({commit}) {
+			/* [
+				{id: 1, lessonsCompleted: 2, lessonsTotal: 3, title: 'Mathematics'},
+				{id: 2, lessonsCompleted: 1, lessonsTotal: 4, title: 'English'},
+				{id: 3, lessonsCompleted: 0, lessonsTotal: 6, title: 'Physics'},
+				{id: 4, lessonsCompleted: 10, lessonsTotal: 10, title: 'Russian'},
+				{id: 5, lessonsCompleted: 9, lessonsTotal: 10, title: 'Programming'},
+			].forEach(c => commit('setCourse', c));
+			return; */
+
 			const response = await fetch(`${BASE_URL}/courses`);
 			const json = await response.json();
 			for (const course of json) {
-				commit('setCourses', course);
+				commit('setCourse', course);
 			}
+		},
+		async getCourse({commit}, payload) {
+			const response = await fetch(`${BASE_URL}/courses/${payload}`);
+			const json = await response.json();
+			commit('setCourse', json);
 		},
 		async getLessons({commit}, courseId: string) {
 			const response = await fetch(`${BASE_URL}/course/${courseId}/lessons`);
@@ -52,5 +66,6 @@ export default new Vuex.Store({
 	},
 	getters: {
 		logged_in: (state) => state.user != null,
+		course: (state) => (id: string) => state.courses.find((c) => c.id === id),
 	},
 });

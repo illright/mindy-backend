@@ -20,34 +20,9 @@
 		</header>
 		<div class="courses">
 			<CourseCard
-			  title="Arithmetic Fundamentals"
-				:lessonsCompleted=1
-				:lessonsTotal=10
-				courseUrl="#"
-			/>
-			<CourseCard
-			  title="Arithmetic Fundamentals"
-				:lessonsCompleted=1
-				:lessonsTotal=10
-				courseUrl="#"
-			/>
-			<CourseCard
-			  title="Arithmetic Fundamentals"
-				:lessonsCompleted=1
-				:lessonsTotal=10
-				courseUrl="#"
-			/>
-			<CourseCard
-			  title="Arithmetic Fundamentals"
-				:lessonsCompleted=1
-				:lessonsTotal=10
-				courseUrl="#"
-			/>
-			<CourseCard
-			  title="Arithmetic Fundamentals"
-				:lessonsCompleted=1
-				:lessonsTotal=10
-				courseUrl="#"
+				v-for="course in courses"
+				:key="course.id"
+				v-bind="course"
 			/>
 		</div>
 		<header>
@@ -63,10 +38,13 @@ import CourseCard from '@/components/CourseCard.vue';
 
 export default Vue.extend({
 	components: {Button, CourseCard},
-	data() {
-		return {
-			courses: [],
-		};
+	computed: {
+		courses() {
+			return this.$store.state.courses;
+		},
+	},
+	mounted() {
+		this.$store.dispatch('getCourses');
 	},
 });
 </script>
