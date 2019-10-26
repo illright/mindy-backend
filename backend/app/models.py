@@ -46,16 +46,12 @@ class Account(db.Model):
                              backref=db.backref('teachers',
                                                 lazy=True,
                                                 cascade='all, delete-orphan'))
-    testresult = db.relationship('TestResult',
-                                 backref=db.backref('test_owner',
-                                                    lazy=True,
-                                                    cascade='all, delete-orphan'))
 
 
 class TestResult(db.Model):
     __tablename__ = 'accounts'
     last_test_id = db.Column(db.Integer, nullable=True)
-    created_date = db.Column(db.DateTime, default=datetime.utcnow)
+    created_date = db.Column(db.DateTime, default=datetime.utcnow, primary_key=True)
     reflexion = db.Column(db.Float, nullable=True)
     prof_orientation = db.Column(db.Float, nullable=True)
     leader = db.Column(db.Float, nullable=True)
@@ -64,6 +60,26 @@ class TestResult(db.Model):
     logic = db.Column(db.Float, nullable=True)
     science = db.Column(db.Float, nullable=True)
     communication = db.Column(db.Float, nullable=True)
+    student_id = db.Column(db.Integer, db.ForeignKey('accounts.id'), nullable=True)
+
+    test_owner = db.relationship('Account',
+                                 backref=db.backref('testresult',
+                                                    lazy=True,
+                                                    cascade='all, delete-orphan'))
+
+
+class Quiz(db.Model):
+    __tablename__ = 'quiz'
+    id = db.Column(db.Integer, primary_key=True)
+    questions = db.Column(db.Integer, nullable=False)
+    correct = db.Column(db.Integer, nullable=False)
+    student_id = db.Column(db.Integer, db.ForeignKey(
+        'enrollments.enrollee_id'), nullable=False)
+
+    quiz_owner = db.relationship('Enrollment',
+                                 backref=db.backref('quiz_owner',
+                                                    lazy=True,
+                                                    cascade='all, delete-orphan'))
 
 
 class Course(db.Model):
@@ -79,6 +95,7 @@ class Course(db.Model):
     interest1 = db.Column(db.String(256), nullable=True)
     interest2 = db.Column(db.String(256), nullable=True)
     interest3 = db.Column(db.String(256), nullable=True)
+    grade = db.Column(db.Integer, nullable=True)
     # property `lessons` created with a backref
     # property `enrollments` created with a backref
 
@@ -115,6 +132,8 @@ class Lesson(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey(
         'courses.id'), nullable=False)
+    quiz_id = db.Column(db.Integer, db.ForeignKey(
+        'quiz.id'), nullable=False)
     name = db.Column(db.String(256), nullable=False)
     description = db.Column(db.String(1024), nullable=True)
     consultation_time = db.Column(db.DateTime, nullable=True)
@@ -126,6 +145,10 @@ class Lesson(db.Model):
 
     course = db.relationship('Course',
                              backref=db.backref('lessons',
+                                                lazy=True,
+                                                cascade='all, delete-orphan'))
+    quizes = db.relationship('Quiz',
+                             backref=db.backref('lessons_with_quizes',
                                                 lazy=True,
                                                 cascade='all, delete-orphan'))
 
