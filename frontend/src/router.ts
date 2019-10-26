@@ -5,6 +5,7 @@ import Dashboard from './views/Dashboard.vue';
 import Login from './views/Login.vue';
 import Register from './views/Register.vue';
 import Course from './views/Course.vue';
+import Lesson from './views/Lesson.vue';
 
 Vue.use(Router);
 
@@ -38,6 +39,11 @@ export default new Router({
 			path: '/courses/:id',
 			name: 'course',
 			component: Course,
+		},
+		{
+			path: '/lessons/:id',
+			name: 'lesson',
+			component: Lesson,
 		},
 	],
 });

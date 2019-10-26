@@ -6,7 +6,7 @@
 			<TextField label="password" v-model="password" />
 			<div class="actions">
 				<Button filled @click="login">
-					login
+					log in
 				</Button>
 			</div>
 			<p>Don't have an account yet? <router-link to="/register">Register here</router-link>.</p>
@@ -41,7 +41,7 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.wrapper {
 		display: flex;
 		justify-content: center;
@@ -60,11 +60,15 @@ export default Vue.extend({
 		.actions {
 			margin-top: 2em;
 			display: flex;
-			justify-content: space-between;
+			justify-content: flex-end;
 		}
 
 		a {
 			color: #4DB39A;
+		}
+
+		p {
+			margin-left: 1em;
 		}
 	}
 

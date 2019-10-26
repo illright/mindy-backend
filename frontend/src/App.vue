@@ -4,7 +4,7 @@
 			<img src="/img/logo.svg" />
 			<h1 class="title">mindly</h1>
 		</header>
-		<hr class="separator" />
+		<div class="separator" />
 		<div class="content">
 			<router-view/>
 		</div>
@@ -53,7 +53,8 @@
 }
 .separator {
 	width: 100%;
-	border: 1.5px solid #4DB39A;
+	height: 1.5px;
+	background: linear-gradient(90deg, #D3EBAD 0%, #B3E5D9 100%);
 }
 .content {
 	margin: 4em;

@@ -48,7 +48,7 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.wrapper {
 		display: flex;
 		justify-content: center;
@@ -72,6 +72,10 @@ export default Vue.extend({
 
 		a {
 			color: #4DB39A;
+		}
+
+		p {
+			margin-left: 1em;
 		}
 	}
 

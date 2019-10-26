@@ -29,7 +29,7 @@
 					<span>Integer division in binary</span>
 				</div>
 				<Button filled>
-					see the lesson
+					<router-link :to="`/lessons/8`" tag="span">see the lesson</router-link>
 				</Button>
 				<Labeled label="q&a session">
 					18:00, 12 Jan 2019
@@ -107,7 +107,7 @@
 	});
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.course-page {
 		padding-left: 60px;
 	  padding-right: 60px;
