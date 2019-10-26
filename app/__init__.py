@@ -9,7 +9,6 @@ from flask import Blueprint, render_template
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
 
-
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config/hack.py')
