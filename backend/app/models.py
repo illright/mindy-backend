@@ -49,7 +49,7 @@ class Account(db.Model):
 
 
 class TestResult(db.Model):
-    __tablename__ = 'accounts'
+    __tablename__ = 'test_results'
     last_test_id = db.Column(db.Integer, nullable=True)
     created_date = db.Column(db.DateTime, default=datetime.utcnow, primary_key=True)
     reflexion = db.Column(db.Float, nullable=True)

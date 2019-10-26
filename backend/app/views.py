@@ -10,6 +10,7 @@ import operator
 import requests
 from flask import Blueprint, abort, jsonify, request, current_app
 from flask_login import current_user
+from flask_cors import CORS
 from flask.views import MethodView
 from psycopg2.extras import DateRange
 from sqlalchemy import or_
@@ -22,7 +23,7 @@ from .models import (Course, Enrollment, Lesson,
                      LearningBlock, LearningBlockVariety, Account, School)
 
 api = Blueprint('api', __name__)  # pylint: disable=invalid-name
-
+CORS(api, supports_credentials=True)
 
 # ----- Projects -----
 
@@ -58,7 +59,7 @@ def get_account(id):
     }
     return jsonify(obj)
 
-
+'''
 @api.route('/account/<int:id>')
 def get_account(id):
     account = Account.query.get_or_404(id)
@@ -77,7 +78,7 @@ def get_account(id):
         } if school is not None else None,
     }
     return jsonify(obj)
-
+'''
 
 @api.route('/courses')
 def list_courses():

@@ -5,6 +5,7 @@ from flask import Flask
 from flask_login import login_required, current_user, LoginManager
 from flask import Blueprint, render_template
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 # thid id actually oauth
 from .views import api
@@ -32,6 +33,7 @@ def create_app():
     app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://postgres:password@localhost/mindy'
 
+    CORS(app, supports_credentials=True)
     db.init_app(app)
     Migrate(app, db)
 

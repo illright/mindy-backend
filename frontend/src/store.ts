@@ -5,7 +5,12 @@ import { Course } from './types';
 
 Vue.use(Vuex);
 
-const BASE_URL = '';
+const BASE_URL = '//localhost:5000';
+const config: RequestInit = {
+	credentials: 'include',
+	mode: 'cors',
+	headers: new Headers({}),
+}
 
 export default new Vuex.Store({
 	state: {

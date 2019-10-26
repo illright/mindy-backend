@@ -4,11 +4,12 @@ from .models import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import Account
 from flask_login import login_user, logout_user, login_required
+from flask_cors import CORS
 from flask import redirect
 
 auth = Blueprint('auth', __name__)
-
-
+CORS(auth, supports_credentials=True)
+'''
 @auth.route('/login')
 def login():
     return render_template('login.html')
@@ -17,7 +18,7 @@ def login():
 @auth.route('/signup')
 def signup():
     return render_template('signup.html')
-
+'''
 
 @auth.route('/logout')
 @login_required
@@ -28,10 +29,11 @@ def logout():
 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
-    mail = request.form.get('email')
-    name = request.form.get('name')
-    password = request.form.get('password')
-    is_teacher = request.form.get('teacher')
+    json = request.get_json(force=True)
+    mail = json['email']
+    name = json['name']
+    password = json['password']
+    is_teacher = json['is_teacher']
     user = Account.query.filter_by(
         email=mail).first()  # if this returns a user, then the email already exists in database
 
@@ -46,7 +48,12 @@ def signup_post():
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
-    return redirect(url_for('auth.login'))
+    return jsonify({
+        'id': new_user.id,
+        'email': new_user.email,
+        'name': new_user.name,
+        'is_teacher': new_user.is_teacher,
+    })
 
 
 @auth.route('/login', methods=['POST'])
@@ -66,4 +73,9 @@ def login_post():
 
     login_user(user, remember=remember)
     # if the above check passes, then we know the user has the right credentials
-    return redirect(url_for('main.profile'))
+    return jsonify({
+        'id': user.id,
+        'email': user.email,
+        'name': user.name,
+        'is_teacher': user.is_teacher,
+    })
