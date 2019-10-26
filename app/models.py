@@ -1,6 +1,7 @@
 """Database models"""
 
 from datetime import datetime
+from enum import Enum, auto
 
 from flask_sqlalchemy import SQLAlchemy
 
