@@ -25,6 +25,7 @@ from .models import (Course, Enrollment, Lesson,
 api = Blueprint('api', __name__)  # pylint: disable=invalid-name
 CORS(api, supports_credentials=True)
 
+
 # ----- Projects -----
 
 @api.route('/account/<int:id>')
@@ -59,6 +60,7 @@ def get_account(id):
     }
     return jsonify(obj)
 
+
 '''
 @api.route('/account/<int:id>')
 def get_account(id):
@@ -79,6 +81,7 @@ def get_account(id):
     }
     return jsonify(obj)
 '''
+
 
 @api.route('/courses')
 def list_courses():
@@ -181,15 +184,18 @@ def student_quiz_average(student, course):
     total_grade = sum(lesson.quiz_grade for lesson in lessons) / len(lessons)
     return total_grade
 
+
 def student_task_average(student, course):
     enrollment = Enrollment.query.filter_by(
         enrollee_id=student.id, course_id=course.id).one()
     lessons = Lesson.query.filter_by(enrollment_id=enrollment.id).all()
-    counter=lessons.query.practice_sessions.query.score.count()
-    a = sum(lessons.query.practice_sessions.query.score)/sum(lessons.query.practice_sessions.query.questions)
-    a = round(a/counter)
+    counter = lessons.query.practice_sessions.query.score.count()
+    a = sum(lessons.query.practice_sessions.query.score) / sum(lessons.query.practice_sessions.query.questions)
+    a = round(a / counter)
     return a
     # total_grade = sum(lesson.quiz_grade for lesson in lessons) / len(lessons)
+
+
 #     return total_grade
 
 
@@ -197,10 +203,25 @@ def course_average_grades(student_id):
     courses_list = give_ones_courses(student_id)
     for i in courses_list:
         # Enrollment.query.filter_by(enrollee_id=student_id)
-        grade = ((student_quiz_average(student=student_id, course=i) +student_task_average(student=student_id, course=i))/2)
+        grade = ((student_quiz_average(student=student_id, course=i) + student_task_average(student=student_id,
+                                                                                            course=i)) / 2)
 
     return grade
 
+
+# remove point will be implemented just with adding negative number
+def add_points(some, student_id, course_id):
+    student = Account.query.filter_by(id=student_id).one()
+    if some > 0:
+        student.query.money.query.amount.query.filter_by(course=course_id).one \
+            = student.query.money.query.amount.query.filter_by(course=course_id).one + some
+    else:
+        if student.query.money.query.amount.query.filter_by(course=course_id).one < some:
+            return 'can not buy it'
+        else:
+            student.query.money.query.amount.query.filter_by(course=course_id).one \
+                = student.query.money.query.amount.query.filter_by(course=course_id).one + some
+            return True
 
 
 @api.route('/courses/<int:course_id>/lessons/<int:lesson_id>')
@@ -254,6 +275,29 @@ def submit_quiz(course_id, lesson_id):
     return jsonify({
         'result': correct / len(correct_quiz),
     })
+
+
+def buy_homework(lesson, user_id):
+    homework = lesson.query.practice_sessions.query.is_home
+    if homework is None or False:
+        return 'There is no homework for this lesson'
+    else:
+        to_pay = lesson.query.practice_sessions.query.cost
+        course = lesson.query.course.id
+        if add_points(some=to_pay, student_id=user_id, course_id=course) is True:
+            lesson.query.practice_sessions.query.is_bought = True
+        else:
+            lesson.query.practice_sessions.query.is_bought = False
+
+
+# function for teachers only
+def set_homework_cost(lesson, some):
+    homework = lesson.query.practice_sessions.query.is_home
+    if homework is None or False:
+        return 'There is no homework for this lesson'
+    else:
+        lesson.query.practice_sessions.query.cost = some
+        return True
 
 
 def reccomend_course():

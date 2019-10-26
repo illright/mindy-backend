@@ -216,6 +216,9 @@ class PracticeSession(db.Model):
     end_time = db.Column(db.DateTime, nullable=False)
     solved = db.Column(db.Integer, nullable=True)
     questions = db.Column(db.Integer, nullable=True)
+    is_home = db.Column(db.Boolean, nullable=True)
+    is_bought = db.Column(db.Boolean, nullable=True)
+    cost = db.Column(db.Integer, nullable=True)
     # property `problems` created with a backref
     # property `session_events` created with a backref
 
@@ -264,3 +267,21 @@ class PracticeSessionEvent(db.Model):
                                                  lazy=True,
                                                  cascade='all, delete-orphan'))
     problem = db.relationship('PracticeProblem')
+
+
+class Point(db.Model):
+    __tablename__ = 'points'
+
+    point_id = db.Column(db.Integer, primary_key=True)
+    amount = db.Column(db.Integer, nullable=True)
+    student_id = db.Column(db.Integer, db.ForeignKey(
+        'accounts.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey(
+        'courses.id'), nullable=False)
+    student = db.relationship('Account',backref=db.backref('money',
+                                                lazy=True,
+                                                cascade='all, delete-orphan'))
+    course = db.relationship('Course',
+                             backref=db.backref('lessons',
+                                                lazy=True,
+                                                cascade='all, delete-orphan'))
