@@ -68,18 +68,22 @@ class TestResult(db.Model):
                                                     cascade='all, delete-orphan'))
 
 
-class Quiz(db.Model):
-    __tablename__ = 'quiz'
-    id = db.Column(db.Integer, primary_key=True)
-    questions = db.Column(db.Integer, nullable=False)
-    correct = db.Column(db.Integer, nullable=False)
-    student_id = db.Column(db.Integer, db.ForeignKey(
-        'enrollments.enrollee_id'), nullable=False)
-
-    quiz_owner = db.relationship('Enrollment',
-                                 backref=db.backref('quiz_owner',
-                                                    lazy=True,
-                                                    cascade='all, delete-orphan'))
+# class Quiz(db.Model):
+#     __tablename__ = 'quiz'
+#
+#     id = db.Column(db.Integer, primary_key=True)
+#     questions = db.Column(db.Integer, nullable=False)
+#     correct = db.Column(db.Integer, nullable=False)
+#     tasks = db.Column(db.String(4096), nullable=True)
+#     in_class = db.Column(db.Boolean, nullable=True)
+#     solutions = db.Column(db.String(4096), nullable=True)
+#     student_id = db.Column(db.Integer, db.ForeignKey(
+#         'enrollments.enrollee_id'), nullable=False)
+#
+#     quiz_owner = db.relationship('Enrollment',
+#                                  backref=db.backref('quiz_owner',
+#                                                     lazy=True,
+#                                                     cascade='all, delete-orphan'))
 
 
 class Course(db.Model):
@@ -234,6 +238,8 @@ class PracticeSession(db.Model):
                           nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
+    solved = db.Column(db.Integer, nullable=True)
+    questions = db.Column(db.Integer, nullable=True)
     # property `problems` created with a backref
     # property `session_events` created with a backref
 
