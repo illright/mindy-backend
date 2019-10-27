@@ -28,7 +28,7 @@
 		<header>
 			<h3>My Interests</h3>
 		</header>
-		<ChoiceChips :chips="[{name: 'test'}, {name: 'test1'}]" groupName="tests" />
+		<ChoiceChips :chips="subjects" groupName="tests" />
 	</div>
 </template>
 
@@ -43,6 +43,18 @@ export default Vue.extend({
 		Button,
 		CourseCard,
 		ChoiceChips,
+	},
+	data() {
+		return {
+			subjects: [
+				{name: 'Math'},
+				{name: 'Science'},
+				{name: 'Literature'},
+				{name: 'Art'},
+				{name: 'Sports'},
+				{name: 'Life Safety'},
+			],
+		};
 	},
 	computed: {
 		courses() {

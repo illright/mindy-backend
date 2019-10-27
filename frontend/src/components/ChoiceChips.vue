@@ -1,6 +1,6 @@
 <template>
 	<div role="group" class="chips">
-    <label v-for="chip in chips" class="chip-wrapper">
+    <label v-for="(chip, i) in chips" :key="i" class="chip-wrapper">
       <input type="checkbox" :name="groupName">
       <div class="chip">{{ chip.name }}</div>
     </label>
@@ -43,17 +43,18 @@
 	}
 
 	.chip {
-	  border-radius: 1.5625em;
-	  background-color: rgba(0, 0, 0, .08);
-	  color: #656565;
-	  padding: .6em .9em;
-	  font-weight: 600;
+		border-radius: 1.5625em;
+		background-color: rgba(0, 0, 0, .08);
+		color: #656565;
+		padding: .6em .9em;
+		font-weight: 600;
 		position: relative;
 		margin-right: .5em;
+		cursor: pointer;
 
 		&::before {
-	    border: 0 solid #fff;
-	    content: "";
+			border: 0 solid #fff;
+			content: "";
 		}
 	}
 

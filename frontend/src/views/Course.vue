@@ -2,7 +2,7 @@
 	<div class="course-page">
 		<h2>{{ course.name }}</h2>
 		<div class="info">
-			<Labeled label="provided by">
+			<Labeled label="provided by" v-if="course.school">
 				<em>{{ course.school }}</em>
 			</Labeled>
 			<Labeled label="course time">
@@ -98,14 +98,16 @@
 		mounted() {
 			const id = this.$route.params.id;
 			this.$store.dispatch('getCourse', id)
-				.then(c => this.course = c);
+				.then((c) => this.course = c);
 		},
 		filters: {
 			date(str: string) {
-				if(str == undefined) return '';
+				if (str === undefined) {
+					return '';
+				}
 				return new Date(str).toDateString();
-			}
-		}
+			},
+		},
 	});
 </script>
 
