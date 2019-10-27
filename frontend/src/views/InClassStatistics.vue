@@ -1,7 +1,7 @@
 <template>
 	<div class="statistics-wrapper">
 		<h2>{{ courseName }} In-Class Statistics</h2>
-
+		<Button @click="$router.back()">Go back</Button>
 		<div class="statistics">
 			<h3>Overall Performance</h3>
 			<h3>Students To Help</h3>
