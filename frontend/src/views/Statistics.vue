@@ -16,16 +16,33 @@
 			<h3>Students</h3>
 			<BarChart :labels="items" :students="students" />
 			<div class="graph" style="padding: 1.5em;">
-				<div class="group">0-25%</div>
+				<div class="group">0-20%</div>
 				<ul>
-					<li>Lev</li>
+					<li>Tom</li>
 				</ul>
-				<div class="group">75-100%</div>
+                <div class="group">20-40%</div>
 				<ul>
-					<li>Cee</li>
-					<li>Abdelrahman</li>
-					<li>Anna</li>
+					<li>Polly</li>
+                    <li>Sergey</li>
 				</ul>
+                <div class="group">40-60%</div>
+				<ul>
+					<li>George</li>
+                    <li>Olya</li>
+                    <li>Jane</li>
+                    <li>Jonson</li>
+				</ul>
+                <div class="group">60-80%</div>
+				<ul>
+					<li>Kate</li>
+                    <li>Sonya</li>
+				</ul>
+                <div class="group">80-100%</div>
+				<ul>
+					<li>Oliver</li>
+                    <li>Ivan</li>
+				</ul>
+
 			</div>
 		</div>
 
