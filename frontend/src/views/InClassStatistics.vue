@@ -11,14 +11,14 @@
 				Average tasks solved
 				</span>
 				<span>
-				{{aver_solved}}/{{all_questions}}
+				6.7/10
 				</span>
 
 				<span>
 				Students in class
 				</span>
 				<span>
-				{{cur_in}}/{{stud_in_class}}
+				25/30
 				</span>
 
 				<span>
@@ -26,15 +26,15 @@
 				</span>
 
 				<span>20</span>
-				<span>{{twenty}}</span>
+				<span>19</span>
 				<span>40</span>
-				<span>{{forty}}</span>
+				<span>15</span>
 				<span>60</span>
-				<span>{{sixty}}</span>
+				<span>13</span>
 				<span>80</span>
-				<span>{{eighty}}</span>
+				<span>8</span>
 				<span>100</span>
-				<span>{{hundred}}</span>
+				<span>1</span>
 			</div>
 
 
@@ -44,7 +44,7 @@
 				<span>Kventin Tarantino</span>
 				<span>George Washignton</span>
 
-				<span>{{student name}}</span>
+				<!--<span>{{student name}}</span>-->
 			</div>
 
 			<div class="list">
@@ -61,8 +61,8 @@
 				<span>Jane Street</span>
 				<span>30</span>
 
-				<span>{{student name}}</span>
-				<span>{{tasks6}}</span>
+				<!--<span>{{student name}}</span>-->
+				<!--<span>{{tasks6}}</span>-->
 
 			</div>
 
