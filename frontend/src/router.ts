@@ -7,6 +7,7 @@ import Register from './views/Register.vue';
 import Course from './views/Course.vue';
 import Lesson from './views/Lesson.vue';
 import Statistics from './views/Statistics.vue';
+import ClassStatistics from './views/InClassStatistics.vue';
 import PracticeControl from './views/PracticeControl.vue';
 
 Vue.use(Router);
@@ -56,6 +57,11 @@ export default new Router({
 			path: '/practice-control',
 			name: 'practice-control',
 			component: PracticeControl,
+		},
+		{
+			path: '/class-stats',
+			name: 'class-stats',
+			component: ClassStatistics,
 		},
 	],
 });

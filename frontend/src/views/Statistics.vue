@@ -48,7 +48,7 @@
 		</div>
 
 		<div class="center">
-			<Button filled><router-link to="/practice-control" tag="span">practice sessions</router-link></Button>
+			<Button filled><router-link to="/class-stats" tag="span">practice sessions</router-link></Button>
 		</div>
 	</div>
 </template>
