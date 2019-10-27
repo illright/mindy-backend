@@ -7,59 +7,59 @@
 			<h3>Students To Help</h3>
 			<h3>Students' Performance</h3>
 			<div class="list">
-				<span>
+				<p>
 				Average tasks solved
-				</span>
-				<span>
+				</p>
+				<p>
 				6.7/10
-				</span>
+				</p>
 
-				<span>
+				<p>
 				Students in class
-				</span>
-				<span>
+				</p>
+				<p>
 				25/30
-				</span>
+				</p>
 
-				<span>
+				<p>
 					How many students solved
-				</span>
+				</p>
 
-				<span>20</span>
-				<span>19</span>
-				<span>40</span>
-				<span>15</span>
-				<span>60</span>
-				<span>13</span>
-				<span>80</span>
-				<span>8</span>
-				<span>100</span>
+				<span>20</span> /
+				<span>19</span><br/>
+				<span>40</span> /
+				<span>15</span><br/>
+				<span>60</span> /
+				<span>13</span><br/>
+				<span>80</span> /
+				<span>8</span><br/>
+				<span>100</span> /
 				<span>1</span>
 			</div>
 
 
 			<div class="list">
-				<span>Kevin Clein</span>
-				<span>George Bush</span>
-				<span>Kventin Tarantino</span>
-				<span>George Washignton</span>
+				<p>Kevin Clein</p>
+				<p>George Bush</p>
+				<p>Kventin Tarantino</p>
+				<p>George Washignton</p>
 
 				<!--<span>{{student name}}</span>-->
 			</div>
 
 			<div class="list">
-				<span>Kevin Clein</span>
-				<span>18</span>
-				<span>George Bush</span>
-				<span>22</span>
-				<span>Kventin Tarantino</span>
-				<span>20</span>
-				<span>George Washignton</span>
-				<span>27</span>
-				<span>Oliver Sachs</span>
-				<span>26</span>
-				<span>Jane Street</span>
-				<span>30</span>
+				<p>Kevin Clein</p>
+				<p>18</p>
+				<p>George Bush</p>
+				<p>22</p>
+				<p>Kventin Tarantino</p>
+				<p>20</p>
+				<p>George Washignton</p>
+				<p>27</p>
+				<p>Oliver Sachs</p>
+				<p>26</p>
+				<p>Jane Street</p>
+				<p>30</p>
 
 				<!--<span>{{student name}}</span>-->
 				<!--<span>{{tasks6}}</span>-->
@@ -100,7 +100,7 @@
 	}
 
 	.list {
-		height: 10em;
+		min-height: 10em;
 		border-radius: 15px;
 		border: 1px solid #ddd;
 	}
