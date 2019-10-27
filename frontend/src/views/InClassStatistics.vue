@@ -88,7 +88,7 @@
 	});
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	h2, h3 {
 		font-weight: 600;
 	}
