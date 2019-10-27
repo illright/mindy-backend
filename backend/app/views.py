@@ -100,15 +100,19 @@ def list_courses():
             'start_time': course.start_time,
             'end_time': course.end_time,
         }
-        
+
         if user is not None:
             total_lessons = Lesson.query.filter_by(course_id=course.id).count()
-            enrollment = Enrollment.query.filter_by(enrollee_id=user.id, course_id=course.id).one()
-            completed_lessons = LessonReport.query.filter_by(enrollment_id=enrollment.id).count()
-            course_json['lessonsTotal'] = total_lessons
-            course_json['lessonsCompleted'] = completed_lessons
-        
-        courses.append(course_json)
+            enrollment_query = Enrollment.query.filter_by(enrollee_id=user.id, course_id=course.id)
+            course_json['lessonsTotal'] = 0
+            course_json['lessonsCompleted'] = 0
+            if enrollment_query.count() >= 1:
+                enrollment = enrollment_query.first()
+                completed_lessons = LessonReport.query.filter_by(enrollment_id=enrollment.id).count()
+                course_json['lessonsTotal'] = total_lessons
+                course_json['lessonsCompleted'] = completed_lessons
+
+                courses.append(course_json)
     # yapf: enable
 
     return jsonify(courses)
