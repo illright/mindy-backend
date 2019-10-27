@@ -73,7 +73,7 @@
 		}
 
 		&.outline {
-			border-image: 1px solid #4DB39A;
+			border: 1px solid #4DB39A;
 			color: #4DB39A;
 		}
 
