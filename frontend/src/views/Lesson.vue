@@ -1,6 +1,6 @@
 <template>
 	<div class="lesson">
-		<Button>
+		<Button @click="$router.back()">
 			back to the course
 		</Button>
 		<h1>Integer Division in Binary</h1>

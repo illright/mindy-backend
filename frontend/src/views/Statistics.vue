@@ -6,6 +6,7 @@
 				v-for="act in items"
 				filled
 				:key="act"
+				@click="selected = act"
 			>
 				{{ act }}
 			</Button>
@@ -14,7 +15,7 @@
 		<div class="statistics">
 			<h3>Overall Performance</h3>
 			<h3>Students</h3>
-			<BarChart :labels="items" :students="students" />
+			<BarChart :label="selected" :students="students" />
 			<div class="graph" style="padding: 1.5em;">
 				<div class="group">0-20%</div>
 				<ul>
@@ -64,8 +65,9 @@
 		},
 		data() {
 			return {
+				selected: 'classwork',
 				items: ['classwork', 'homework', 'home quizzes', 'in-class quizzes', 'class attendance', 'online attendance'],
-				students: ['Lev', 'Anna', 'Polly', 'Cee'],
+				students: ['Lev', 'Anna', 'Polly', 'Cee', 'Lesha', 'Kate', 'olya', 'olesea', 'peter', 'ivan', 'insaf', 'george', 'ilia', 'evgenyi', 'dmitriy', 'sasha', 'egor', 'sergey', 'nastay', 'nadya'],
 			};
 		},
 		computed: {
