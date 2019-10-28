@@ -2,7 +2,7 @@
 	<div id="app">
 		<header id="nav">
 			<img src="/img/logo.svg" />
-			<h1 class="title">mindly</h1>
+			<h1 class="title">mindy</h1>
 		</header>
 		<div class="separator" />
 		<div class="content">

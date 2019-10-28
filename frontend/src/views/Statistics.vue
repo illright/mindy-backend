@@ -79,7 +79,7 @@
 	});
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	h2, h3 {
 		font-weight: 600;
 	}
@@ -97,7 +97,7 @@
 	}
 
 	.graph {
-		height: 10em;
+		min-height: 10em;
 		border-radius: 15px;
 		border: 1px solid #ddd;
 	}

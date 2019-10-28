@@ -101,6 +101,7 @@
 
 	.list {
 		min-height: 10em;
+    padding: 1.5em;
 		border-radius: 15px;
 		border: 1px solid #ddd;
 	}
